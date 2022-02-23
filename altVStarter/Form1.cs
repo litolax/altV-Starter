@@ -4,12 +4,20 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Windows.Forms;
 
 namespace altVStarter
 {
     public partial class Form1 : Form
     {
+        public record LastConfig(int Branch, int Debug, int NoUpdate)
+        {
+            public int Branch { get; } = Branch;
+            public int Debug { get; } = Debug;
+            public int NoUpdate { get; } = NoUpdate;
+        }
+
         #region Constructors
 
         readonly Color originalColor;
@@ -36,7 +44,18 @@ namespace altVStarter
             this.DisplayBranches();
             this.DisplayDebug();
             this.DisplayNoUpdate();
+
+            var file = new FileInfo("./last.json");
+            if (file.Exists)
+            {
+                var fileData = File.ReadAllText(file.FullName);
+                var data = JsonSerializer.Deserialize<LastConfig>(fileData);
+                this.branchListBox.SetSelected(data?.Branch ?? 0, true);
+                this.debugListBox.SetSelected(data?.Debug ?? 0, true);
+                this.noUpdateListBox.SetSelected(data?.NoUpdate ?? 0, true);
+            }
         }
+
         #endregion
 
         #region Methods
@@ -72,12 +91,12 @@ namespace altVStarter
                 new Field("True"),
             };
 
-            this.updateListBox.DataSource = fieldsChoices;
+            this.noUpdateListBox.DataSource = fieldsChoices;
         }
 
         #endregion
 
-        private void label4_Click(object sender, EventArgs e)
+        private void Start_Click(object sender, EventArgs e)
         {
             var config = new Config<MainConfig>();
 
@@ -85,7 +104,7 @@ namespace altVStarter
 
             var branchConfiguration = BranchNames[this.branchListBox.SelectedIndex];
             var debugConfiguration = this.debugListBox.SelectedIndex == 1 ? "debug: true" : "debug: false";
-            var noUpdateConfiguration = this.updateListBox.SelectedIndex == 1;
+            var noUpdateConfiguration = this.noUpdateListBox.SelectedIndex == 1;
 
             List<string> lines = File.ReadAllLines($"{config.Entries.AltVDirectory}/altv.cfg").ToList();
             for (int i = lines.Count - 1; i >= 0; i--)
@@ -95,9 +114,16 @@ namespace altVStarter
 
             File.WriteAllText($"{config.Entries.AltVDirectory}/altv.cfg", string.Empty);
             File.WriteAllLines($"{config.Entries.AltVDirectory}/altv.cfg", lines);
-            File.AppendAllText($"{config.Entries.AltVDirectory}/altv.cfg", branchConfiguration + "\n" + debugConfiguration);
+            File.AppendAllText($"{config.Entries.AltVDirectory}/altv.cfg",
+                branchConfiguration + "\n" + debugConfiguration);
 
-            var processStartInfo = noUpdateConfiguration
+            var lastConfig = JsonSerializer.Serialize(new LastConfig(this.branchListBox.SelectedIndex, this.debugListBox.SelectedIndex,
+                this.noUpdateListBox.SelectedIndex));
+
+            File.WriteAllText("./last.json", lastConfig);
+            
+
+                var processStartInfo = noUpdateConfiguration
                 ? new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe", "-noupdate")
                 : new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe");
             processStartInfo.WorkingDirectory = config.Entries.AltVDirectory;

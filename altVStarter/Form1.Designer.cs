@@ -34,7 +34,7 @@ namespace altVStarter
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.branchListBox = new System.Windows.Forms.ListBox();
             this.debugListBox = new System.Windows.Forms.ListBox();
-            this.updateListBox = new System.Windows.Forms.ListBox();
+            this.noUpdateListBox = new System.Windows.Forms.ListBox();
             this.branchLabel = new System.Windows.Forms.Label();
             this.debugLabel = new System.Windows.Forms.Label();
             this.updateLabel = new System.Windows.Forms.Label();
@@ -69,16 +69,16 @@ namespace altVStarter
             // 
             // listBox3
             // 
-            this.updateListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.updateListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.updateListBox.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 12F, System.Drawing.FontStyle.Bold);
-            this.updateListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.updateListBox.FormattingEnabled = true;
-            this.updateListBox.ItemHeight = 21;
-            this.updateListBox.Location = new System.Drawing.Point(12, 322);
-            this.updateListBox.Name = "updateListBox";
-            this.updateListBox.Size = new System.Drawing.Size(291, 65);
-            this.updateListBox.TabIndex = 2;
+            this.noUpdateListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.noUpdateListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.noUpdateListBox.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 12F, System.Drawing.FontStyle.Bold);
+            this.noUpdateListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.noUpdateListBox.FormattingEnabled = true;
+            this.noUpdateListBox.ItemHeight = 21;
+            this.noUpdateListBox.Location = new System.Drawing.Point(12, 322);
+            this.noUpdateListBox.Name = "noUpdateListBox";
+            this.noUpdateListBox.Size = new System.Drawing.Size(291, 65);
+            this.noUpdateListBox.TabIndex = 2;
             // 
             // label1
             // 
@@ -126,7 +126,7 @@ namespace altVStarter
             this.startLabel.Size = new System.Drawing.Size(62, 30);
             this.startLabel.TabIndex = 5;
             this.startLabel.Text = "Start";
-            this.startLabel.Click += new System.EventHandler(this.label4_Click);
+            this.startLabel.Click += new System.EventHandler(this.Start_Click);
             // 
             // Form1
             // 
@@ -138,7 +138,7 @@ namespace altVStarter
             this.Controls.Add(this.updateLabel);
             this.Controls.Add(this.debugLabel);
             this.Controls.Add(this.branchLabel);
-            this.Controls.Add(this.updateListBox);
+            this.Controls.Add(this.noUpdateListBox);
             this.Controls.Add(this.debugListBox);
             this.Controls.Add(this.branchListBox);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -158,7 +158,7 @@ namespace altVStarter
 
         private System.Windows.Forms.ListBox branchListBox;
         private System.Windows.Forms.ListBox debugListBox;
-        private System.Windows.Forms.ListBox updateListBox;
+        private System.Windows.Forms.ListBox noUpdateListBox;
         private System.Windows.Forms.Label branchLabel;
         private System.Windows.Forms.Label debugLabel;
         private System.Windows.Forms.Label updateLabel;
