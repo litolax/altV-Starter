@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -32,7 +33,7 @@ namespace altVStarter
         public Form1()
         {
             this.InitializeComponent();
-            originalColor = startLabel.ForeColor;
+            originalColor = this.startButton.ForeColor;
         }
 
         #endregion
@@ -136,10 +137,10 @@ namespace altVStarter
             DateTime start = DateTime.Now;
             TimeSpan duration = TimeSpan.FromSeconds(1);
             TimeSpan interpolation;
-            Color a = startLabel.ForeColor;
+            Color a = this.startButton.ForeColor;
             Color b = a != originalColor
                 ? originalColor
-                : startLabel.Parent.BackColor;
+                : this.startButton.Parent.BackColor;
             while ((interpolation = DateTime.Now - start) < duration)
             {
                 double ratio = interpolation.TotalSeconds / duration.TotalSeconds;
@@ -147,11 +148,16 @@ namespace altVStarter
                 double red = a.R - ((a.R - b.R) * ratio);
                 double green = a.G - ((a.G - b.G) * ratio);
                 double blue = a.B - ((a.B - b.B) * ratio);
-                startLabel.ForeColor = Color.FromArgb((byte) alpha, (byte) red, (byte) green, (byte) blue);
-                startLabel.Refresh();
+                this.startButton.ForeColor = Color.FromArgb((byte) alpha, (byte) red, (byte) green, (byte) blue);
+                this.startButton.Refresh();
             }
 
-            startLabel.ForeColor = b;
+            this.startButton.ForeColor = b;
+        }
+
+        private void OnHelpButtonClicked(object sender, CancelEventArgs e)
+        {
+            Process.Start("https://github.com/litolax/altV-Starter");
         }
     }
 }

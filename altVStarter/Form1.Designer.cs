@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace altVStarter
@@ -37,11 +38,11 @@ namespace altVStarter
             this.noUpdateListBox = new System.Windows.Forms.ListBox();
             this.branchLabel = new System.Windows.Forms.Label();
             this.debugLabel = new System.Windows.Forms.Label();
-            this.updateLabel = new System.Windows.Forms.Label();
-            this.startLabel = new System.Windows.Forms.Label();
+            this.noUpdateLabel = new System.Windows.Forms.Label();
+            this.startButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listBox1
+            // branchListBox
             // 
             this.branchListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.branchListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -49,12 +50,12 @@ namespace altVStarter
             this.branchListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.branchListBox.FormattingEnabled = true;
             this.branchListBox.ItemHeight = 21;
-            this.branchListBox.Location = new System.Drawing.Point(12, 43);
+            this.branchListBox.Location = new System.Drawing.Point(12, 42);
             this.branchListBox.Name = "branchListBox";
             this.branchListBox.Size = new System.Drawing.Size(291, 65);
             this.branchListBox.TabIndex = 0;
             // 
-            // listBox2
+            // debugListBox
             // 
             this.debugListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.debugListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -62,12 +63,12 @@ namespace altVStarter
             this.debugListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.debugListBox.FormattingEnabled = true;
             this.debugListBox.ItemHeight = 21;
-            this.debugListBox.Location = new System.Drawing.Point(12, 182);
+            this.debugListBox.Location = new System.Drawing.Point(12, 156);
             this.debugListBox.Name = "debugListBox";
             this.debugListBox.Size = new System.Drawing.Size(291, 65);
             this.debugListBox.TabIndex = 1;
             // 
-            // listBox3
+            // noUpdateListBox
             // 
             this.noUpdateListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.noUpdateListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -75,74 +76,76 @@ namespace altVStarter
             this.noUpdateListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.noUpdateListBox.FormattingEnabled = true;
             this.noUpdateListBox.ItemHeight = 21;
-            this.noUpdateListBox.Location = new System.Drawing.Point(12, 322);
+            this.noUpdateListBox.Location = new System.Drawing.Point(12, 270);
             this.noUpdateListBox.Name = "noUpdateListBox";
             this.noUpdateListBox.Size = new System.Drawing.Size(291, 65);
             this.noUpdateListBox.TabIndex = 2;
             // 
-            // label1
+            // branchLabel
             // 
             this.branchLabel.AutoSize = true;
             this.branchLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.branchLabel.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 16F, System.Drawing.FontStyle.Bold);
             this.branchLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.branchLabel.Location = new System.Drawing.Point(115, 9);
+            this.branchLabel.Location = new System.Drawing.Point(119, 9);
             this.branchLabel.Name = "branchLabel";
-            this.branchLabel.Size = new System.Drawing.Size(89, 30);
+            this.branchLabel.Size = new System.Drawing.Size(84, 30);
             this.branchLabel.TabIndex = 2;
             this.branchLabel.Text = "Branch";
             // 
-            // label2
+            // debugLabel
             // 
             this.debugLabel.AutoSize = true;
             this.debugLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.debugLabel.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 16F, System.Drawing.FontStyle.Bold);
             this.debugLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.debugLabel.Location = new System.Drawing.Point(119, 140);
+            this.debugLabel.Location = new System.Drawing.Point(119, 123);
             this.debugLabel.Name = "debugLabel";
             this.debugLabel.Size = new System.Drawing.Size(80, 30);
             this.debugLabel.TabIndex = 3;
             this.debugLabel.Text = "Debug";
             // 
-            // label3
+            // noUpdateLabel
             // 
-            this.updateLabel.AutoSize = true;
-            this.updateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.updateLabel.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 16F, System.Drawing.FontStyle.Bold);
-            this.updateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.updateLabel.Location = new System.Drawing.Point(102, 279);
-            this.updateLabel.Name = "updateLabel";
-            this.updateLabel.Size = new System.Drawing.Size(85, 30);
-            this.updateLabel.TabIndex = 4;
-            this.updateLabel.Text = "NoUpdate";
+            this.noUpdateLabel.AutoSize = true;
+            this.noUpdateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.noUpdateLabel.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 16F, System.Drawing.FontStyle.Bold);
+            this.noUpdateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.noUpdateLabel.Location = new System.Drawing.Point(101, 237);
+            this.noUpdateLabel.Name = "noUpdateLabel";
+            this.noUpdateLabel.Size = new System.Drawing.Size(115, 30);
+            this.noUpdateLabel.TabIndex = 4;
+            this.noUpdateLabel.Text = "NoUpdate";
             // 
-            // label4
+            // startButton
             // 
-            this.startLabel.AutoSize = true;
-            this.startLabel.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 16F, System.Drawing.FontStyle.Bold);
-            this.startLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.startLabel.Location = new System.Drawing.Point(128, 406);
-            this.startLabel.Name = "startLabel";
-            this.startLabel.Size = new System.Drawing.Size(62, 30);
-            this.startLabel.TabIndex = 5;
-            this.startLabel.Text = "Start";
-            this.startLabel.Click += new System.EventHandler(this.Start_Click);
+            this.startButton.AutoSize = true;
+            this.startButton.Font = new System.Drawing.Font("Segoe UI Variable Display Semib", 16F, System.Drawing.FontStyle.Bold);
+            this.startButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.startButton.Location = new System.Drawing.Point(12, 353);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(291, 41);
+            this.startButton.TabIndex = 5;
+            this.startButton.Text = "Start";
+            this.startButton.Click += new System.EventHandler(this.Start_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ClientSize = new System.Drawing.Size(315, 445);
-            this.Controls.Add(this.startLabel);
-            this.Controls.Add(this.updateLabel);
+            this.ClientSize = new System.Drawing.Size(315, 407);
+            this.Controls.Add(this.noUpdateLabel);
             this.Controls.Add(this.debugLabel);
             this.Controls.Add(this.branchLabel);
             this.Controls.Add(this.noUpdateListBox);
             this.Controls.Add(this.debugListBox);
             this.Controls.Add(this.branchListBox);
+            this.Controls.Add(this.startButton);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.HelpButton = true;
+            this.HelpButtonClicked += this.OnHelpButtonClicked;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -152,6 +155,7 @@ namespace altVStarter
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -161,8 +165,9 @@ namespace altVStarter
         private System.Windows.Forms.ListBox noUpdateListBox;
         private System.Windows.Forms.Label branchLabel;
         private System.Windows.Forms.Label debugLabel;
-        private System.Windows.Forms.Label updateLabel;
+        private System.Windows.Forms.Label noUpdateLabel;
         private System.Windows.Forms.Label startLabel;
+        private System.Windows.Forms.Button startButton;
     }
 }
 
