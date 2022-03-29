@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace altVStarter
@@ -146,7 +148,8 @@ namespace altVStarter
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.HelpButton = true;
             this.HelpButtonClicked += this.OnHelpButtonClicked;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = new Icon("./altVIcon.ico", new Size(32,32));
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
@@ -166,7 +169,6 @@ namespace altVStarter
         private System.Windows.Forms.Label branchLabel;
         private System.Windows.Forms.Label debugLabel;
         private System.Windows.Forms.Label noUpdateLabel;
-        private System.Windows.Forms.Label startLabel;
         private System.Windows.Forms.Button startButton;
     }
 }

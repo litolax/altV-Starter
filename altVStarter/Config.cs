@@ -37,6 +37,6 @@ namespace altVStarter
             else this.Entries = ReadConfig();
         }
 
-        public T Entries { get; }
+        public T Entries { get; } = default!;
     }
 }
