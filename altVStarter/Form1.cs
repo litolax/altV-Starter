@@ -97,7 +97,23 @@ namespace altVStarter
 
         #endregion
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                this.StartAltV();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void Start_Click(object sender, EventArgs e)
+        {
+            this.StartAltV();
+        }
+
+        private void StartAltV()
         {
             var config = new Config<MainConfig>();
 
@@ -118,13 +134,14 @@ namespace altVStarter
             File.AppendAllText($"{config.Entries.AltVDirectory}/altv.cfg",
                 branchConfiguration + "\n" + debugConfiguration);
 
-            var lastConfig = JsonSerializer.Serialize(new LastConfig(this.branchListBox.SelectedIndex, this.debugListBox.SelectedIndex,
+            var lastConfig = JsonSerializer.Serialize(new LastConfig(this.branchListBox.SelectedIndex,
+                this.debugListBox.SelectedIndex,
                 this.noUpdateListBox.SelectedIndex));
 
             File.WriteAllText("./last.json", lastConfig);
-            
 
-                var processStartInfo = noUpdateConfiguration
+
+            var processStartInfo = noUpdateConfiguration
                 ? new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe", "-noupdate")
                 : new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe");
             processStartInfo.WorkingDirectory = config.Entries.AltVDirectory;
