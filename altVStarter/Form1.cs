@@ -12,11 +12,10 @@ namespace altVStarter
 {
     public partial class Form1 : Form
     {
-        public record LastConfig(int Branch, int Debug, int NoUpdate)
+        public record LastConfig(int Branch, int Debug)
         {
             public int Branch { get; } = Branch;
             public int Debug { get; } = Debug;
-            public int NoUpdate { get; } = NoUpdate;
         }
 
         #region Constructors
@@ -44,7 +43,6 @@ namespace altVStarter
         {
             this.DisplayBranches();
             this.DisplayDebug();
-            this.DisplayNoUpdate();
 
             var file = new FileInfo("./last.json");
             if (file.Exists)
@@ -53,7 +51,6 @@ namespace altVStarter
                 var data = JsonSerializer.Deserialize<LastConfig>(fileData);
                 this.branchListBox.SetSelected(data?.Branch ?? 0, true);
                 this.debugListBox.SetSelected(data?.Debug ?? 0, true);
-                this.noUpdateListBox.SetSelected(data?.NoUpdate ?? 0, true);
             }
         }
 
@@ -84,17 +81,6 @@ namespace altVStarter
             this.debugListBox.DataSource = fieldsChoices;
         }
 
-        private void DisplayNoUpdate()
-        {
-            Field[] fieldsChoices =
-            {
-                new Field("False"),
-                new Field("True"),
-            };
-
-            this.noUpdateListBox.DataSource = fieldsChoices;
-        }
-
         #endregion
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -121,7 +107,6 @@ namespace altVStarter
 
             var branchConfiguration = BranchNames[this.branchListBox.SelectedIndex];
             var debugConfiguration = this.debugListBox.SelectedIndex == 1 ? "debug: true" : "debug: false";
-            var noUpdateConfiguration = this.noUpdateListBox.SelectedIndex == 1;
 
             List<string> lines = File.ReadAllLines($"{config.Entries.AltVDirectory}/altv.cfg").ToList();
             for (int i = lines.Count - 1; i >= 0; i--)
@@ -135,16 +120,16 @@ namespace altVStarter
                 branchConfiguration + "\n" + debugConfiguration);
 
             var lastConfig = JsonSerializer.Serialize(new LastConfig(this.branchListBox.SelectedIndex,
-                this.debugListBox.SelectedIndex,
-                this.noUpdateListBox.SelectedIndex));
+                this.debugListBox.SelectedIndex));
 
             File.WriteAllText("./last.json", lastConfig);
 
 
-            var processStartInfo = noUpdateConfiguration
-                ? new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe", "-noupdate")
-                : new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe");
-            processStartInfo.WorkingDirectory = config.Entries.AltVDirectory;
+            var processStartInfo = new ProcessStartInfo($"{config.Entries.AltVDirectory}/altv.exe")
+            {
+                WorkingDirectory = config.Entries.AltVDirectory
+            };
+            
             Process.Start(processStartInfo);
             Application.Exit();
         }
