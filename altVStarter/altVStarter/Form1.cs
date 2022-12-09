@@ -4,9 +4,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Windows.Forms;
+using altVStarter.Config;
+using Tomlyn;
 
 namespace altVStarter
 {
@@ -22,11 +23,11 @@ namespace altVStarter
 
         readonly Color originalColor;
 
-        private static readonly Dictionary<int, string> BranchNames = new Dictionary<int, string>()
+        private static readonly Dictionary<int, string> BranchNames = new()
         {
-            {0, "branch: 'release'"},
-            {1, "branch: 'rc'"},
-            {2, "branch: 'dev'"}
+            { 0, "release" },
+            { 1, "rc" },
+            { 2, "dev" }
         };
 
         public Form1()
@@ -41,9 +42,6 @@ namespace altVStarter
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.DisplayBranches();
-            this.DisplayDebug();
-
             var file = new FileInfo("./last.json");
             if (file.Exists)
             {
@@ -52,33 +50,6 @@ namespace altVStarter
                 this.branchListBox.SetSelected(data?.Branch ?? 0, true);
                 this.debugListBox.SetSelected(data?.Debug ?? 0, true);
             }
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void DisplayBranches()
-        {
-            Field[] fieldsChoices =
-            {
-                new Field("Release"),
-                new Field("Release Candidate"),
-                new Field("Development")
-            };
-            this.branchListBox.DataSource = fieldsChoices;
-            this.branchListBox.DisplayMember = "Name";
-        }
-
-        private void DisplayDebug()
-        {
-            Field[] fieldsChoices =
-            {
-                new Field("False"),
-                new Field("True"),
-            };
-
-            this.debugListBox.DataSource = fieldsChoices;
         }
 
         #endregion
@@ -106,18 +77,18 @@ namespace altVStarter
             this.ButtonAnimation();
 
             var branchConfiguration = BranchNames[this.branchListBox.SelectedIndex];
-            var debugConfiguration = this.debugListBox.SelectedIndex == 1 ? "debug: true" : "debug: false";
+            var debugConfiguration = this.debugListBox.SelectedIndex == 1;
 
-            List<string> lines = File.ReadAllLines($"{config.Entries.AltVDirectory}/altv.cfg").ToList();
-            for (int i = lines.Count - 1; i >= 0; i--)
-            {
-                if (lines[i].Contains("debug:") || lines[i].Contains("branch:")) lines.RemoveAt(i);
-            }
+            //
+            var path = Path.Combine(config.Entries.AltVDirectory, "altv.toml");
 
-            File.WriteAllText($"{config.Entries.AltVDirectory}/altv.cfg", string.Empty);
-            File.WriteAllLines($"{config.Entries.AltVDirectory}/altv.cfg", lines);
-            File.AppendAllText($"{config.Entries.AltVDirectory}/altv.cfg",
-                branchConfiguration + "\n" + debugConfiguration);
+            var model = Toml.ToModel(File.ReadAllText(path));
+
+            model["branch"] = branchConfiguration;
+            model["debug"] = debugConfiguration;
+
+            File.WriteAllText(path, Toml.FromModel(model));
+            //
 
             var lastConfig = JsonSerializer.Serialize(new LastConfig(this.branchListBox.SelectedIndex,
                 this.debugListBox.SelectedIndex));
@@ -129,7 +100,7 @@ namespace altVStarter
             {
                 WorkingDirectory = config.Entries.AltVDirectory
             };
-            
+
             Process.Start(processStartInfo);
             Application.Exit();
         }
@@ -146,11 +117,11 @@ namespace altVStarter
             while ((interpolation = DateTime.Now - start) < duration)
             {
                 double ratio = interpolation.TotalSeconds / duration.TotalSeconds;
-                double alpha = a.A - ((a.A - b.A) * ratio);
-                double red = a.R - ((a.R - b.R) * ratio);
-                double green = a.G - ((a.G - b.G) * ratio);
-                double blue = a.B - ((a.B - b.B) * ratio);
-                this.startButton.ForeColor = Color.FromArgb((byte) alpha, (byte) red, (byte) green, (byte) blue);
+                double alpha = a.A - (a.A - b.A) * ratio;
+                double red = a.R - (a.R - b.R) * ratio;
+                double green = a.G - (a.G - b.G) * ratio;
+                double blue = a.B - (a.B - b.B) * ratio;
+                this.startButton.ForeColor = Color.FromArgb((byte)alpha, (byte)red, (byte)green, (byte)blue);
                 this.startButton.Refresh();
             }
 

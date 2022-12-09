@@ -1,4 +1,4 @@
-﻿namespace altVStarter
+﻿namespace altVStarter.Config
 {
     public record MainConfig(string AltVDirectory)
     {
